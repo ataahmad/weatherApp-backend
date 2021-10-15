@@ -22,14 +22,14 @@ router.post('/', async (req, res) => {
     req.body.state
   ];
 
-  console.log("Server is hit with a post");
+  //console.log("Server is hit with a post");
 
   // Formatting user input into paramters that will be appended onto our Request URL.
   let urlParams = [];
   userInfo.forEach(ind => {
-    console.log(ind);
+    //console.log(ind);
     if (userInfo[ind] !== '') {
-      console.log(JSON.stringify(userInfo));
+      //console.log(JSON.stringify(userInfo));
       let cleanInfo = ind.replace(/\s/g, '+').trim();
       urlParams.push(cleanInfo);
     }
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 
   // Constructing Request URL.
   let googleAddressKey = urlParams.join('+').replace('++', '+').trim();
-  console.log(googleAddressKey);
+  //console.log(googleAddressKey);
   var googleAPIUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${googleAddressKey}&key=${googleKey}`;
 
 
@@ -51,19 +51,19 @@ router.post('/', async (req, res) => {
     }).then(data => {
 
       // Test logging the data to the console.
-      console.log('Geocode API data');
-      console.log(JSON.stringify(data));
+      // console.log('Geocode API data');
+      // console.log(JSON.stringify(data));
 
 
       // Caching the data to our variable, and test logging them.
       lat = data.results[0].geometry.location.lat;
       lng = data.results[0].geometry.location.lng;
-      console.log('lat and lng variables:');
-      console.log([lat, lng]);
+      // console.log('lat and lng variables:');
+      // console.log([lat, lng]);
 
       //Constructing final request URL we will hit for our raw weather data.
       var tomorrowAPIUrl = `https://api.tomorrow.io/v4/timelines?location=${lat},${lng}&fields=temperature,cloudCover,precipitationProbability,precipitationType&timesteps=1h&units=metric&apikey=${tomorrowKey}`;
-      console.log(tomorrowAPIUrl);
+      //console.log(tomorrowAPIUrl);
 
       // Making another API call and passing it into the stream
       return fetch(tomorrowAPIUrl);
@@ -73,8 +73,8 @@ router.post('/', async (req, res) => {
     }).then(data => {
 
       // Logging the data to the console.
-      console.log('Here is the unformatted weather data');
-      console.log(JSON.stringify(data));
+      // console.log('Here is the unformatted weather data');
+      // console.log(JSON.stringify(data));
 
       // Caching the data to a variable
       weather = data;
