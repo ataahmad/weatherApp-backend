@@ -22,14 +22,10 @@ router.post('/', async (req, res) => {
     req.body.state
   ];
 
-  //console.log("Server is hit with a post");
-
   // Formatting user input into paramters that will be appended onto our Request URL.
   let urlParams = [];
   userInfo.forEach(ind => {
-    //console.log(ind);
     if (userInfo[ind] !== '') {
-      //console.log(JSON.stringify(userInfo));
       let cleanInfo = ind.replace(/\s/g, '+').trim();
       urlParams.push(cleanInfo);
     }
@@ -37,33 +33,22 @@ router.post('/', async (req, res) => {
 
   // Constructing Request URL.
   let googleAddressKey = urlParams.join('+').replace('++', '+').trim();
-  //console.log(googleAddressKey);
-  var googleAPIUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${googleAddressKey}&key=${googleKey}`;
-
+  let googleAPIUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${googleAddressKey}&key=${googleKey}`;
 
   // Grabbing the latitude and longitute coordinates from the Google Geocode API via node fetch.
-  var lat, lng;
-  var weather;
+  let lat, lng;
+  let weather;
   const response = await fetch(googleAPIUrl)
     .then(response => {
-      // Retrieving response.
       return response.json();
     }).then(data => {
-
-      // Test logging the data to the console.
-      // console.log('Geocode API data');
-      // console.log(JSON.stringify(data));
-
-
-      // Caching the data to our variable, and test logging them.
-      lat = data.results[0].geometry.location.lat;
-      lng = data.results[0].geometry.location.lng;
-      // console.log('lat and lng variables:');
-      // console.log([lat, lng]);
+      try {
+        lat = data.results[0].geometry.location.lat;
+        lng = data.results[0].geometry.location.lng;
+      } catch(e) {}
 
       //Constructing final request URL we will hit for our raw weather data.
       var tomorrowAPIUrl = `https://api.tomorrow.io/v4/timelines?location=${lat},${lng}&fields=temperature,cloudCover,precipitationProbability,precipitationType&timesteps=1h&units=metric&apikey=${tomorrowKey}`;
-      //console.log(tomorrowAPIUrl);
 
       // Making another API call and passing it into the stream
       return fetch(tomorrowAPIUrl);
@@ -71,11 +56,6 @@ router.post('/', async (req, res) => {
     }).then(response => {
       return response.json();
     }).then(data => {
-
-      // Logging the data to the console.
-      // console.log('Here is the unformatted weather data');
-      // console.log(JSON.stringify(data));
-
       // Caching the data to a variable
       weather = data;
 
@@ -84,9 +64,8 @@ router.post('/', async (req, res) => {
       return weather.data.timelines;
 
     }).catch(error => {
-      // if there's an error, log it
       console.log(error);
-      return(error);
+      return (error);
     });
 
   res.json(response);
