@@ -1,7 +1,7 @@
 # weatherApp-backend
-  * This is a stateless server that I have built as the backend server for my weather application.
+  * This is a stateless server that I have built that serves our weather data to the front end of our React weather application.
 
-## Engineering Principles:
+## Engineering Highlights:
   * We securely store our API keys with this server integrated with our architecture.
 
 ## Technologies used:
