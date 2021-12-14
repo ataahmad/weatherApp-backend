@@ -1,5 +1,5 @@
 # weatherApp-backend
-This is a stateless server that I have built as the backend server for my weather application.
+  * This is a stateless server that I have built as the backend server for my weather application.
 
 ## Engineering Principles:
   * We securely store our API keys with this server integrated with our architecture.
@@ -9,3 +9,36 @@ This is a stateless server that I have built as the backend server for my weathe
   * Mocha and Chai for testing
   * CircleCI for Continuous Integration
   * Heroku for hosting!
+
+## Data Model:
+### POST `/`
+```js
+// res.body
+{
+    "address1": STRING;
+    "address2": STRING;
+    "city": STRING;
+    "state": STRING;
+}
+
+// req.body
+[
+    0: {
+        "endTime": STRING;
+        "intervals": ARRAY;
+        "startTime": STRING;
+        "timestep": STRING;
+    }
+]
+
+// Each item in the interval array is an object of the form:
+{
+    "startTime": STRING;
+    "values": {
+        "cloudCover": NUMBER
+        "precipitationProbability": NUMBER;
+        "precipitationType": NUMBER;
+        "tempoerature": NUMBER;
+    }
+}
+```
