@@ -38,7 +38,7 @@
         "cloudCover": NUMBER
         "precipitationProbability": NUMBER;
         "precipitationType": NUMBER;
-        "tempoerature": NUMBER;
+        "temperature": NUMBER;
     }
 }
 ```
