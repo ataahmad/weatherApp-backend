@@ -16,6 +16,7 @@ const corsOptions = {
     "optionsSuccessStatus": 204
 };
 
+// Enabling Corsfor all sources for now until deploying the front end.
 app.use('/', cors(corsOptions), require('./routes/main'));
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
